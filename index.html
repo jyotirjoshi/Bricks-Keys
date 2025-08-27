@@ -7,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Calendly badge widget begin -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <!-- Calendly badge widget end -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -59,6 +63,26 @@
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
+            margin-right: 0.3em; /* Add space between words */
+        }
+        .hero-title-word:last-child {
+            margin-right: 0; /* Remove margin from last word */
+        }
+        .auto-scroll-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        .auto-scroll-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .auto-scroll-content {
+            animation: autoScroll 15s linear infinite;
+        }
+        @keyframes autoScroll {
+            0% { scroll-behavior: smooth; transform: translateY(0); }
+            50% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
         }
         .testimonial-carousel { scrollbar-width: none; -ms-overflow-style: none; }
         .testimonial-carousel::-webkit-scrollbar { display: none; }
@@ -242,13 +266,7 @@
 </head>
 <body class="bg-custom-black">
 
-    <!-- Floating Action Buttons -->
-    <div class="fixed bottom-8 right-8 z-50 hidden md:flex flex-col space-y-3">
-        <button id="theme-toggle" class="bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-custom hover:bg-white/20 transition-colors">
-            <svg id="theme-icon-light" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            <svg id="theme-icon-dark" class="w-6 h-6 hidden text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        </button>
-    </div>
+    <!-- Floating Action Buttons removed -->
     
     <div class="flex">
         <!-- Vertical Sidebar -->
@@ -290,10 +308,21 @@
                 <!-- Hero Section (The Hook) -->
                 <section class="h-[80vh] flex items-center justify-start text-left rounded-3xl my-8 hero-bg">
                     <div class="p-8 md:p-16 anim-on-load">
-                        <h1 id="hero-title" class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tighter mb-4">Not sure if now is the right time to move?</h1>
-                        <p class="max-w-xl text-lg md:text-xl text-gray-200 mb-8">Let's build you a fearless strategy.</p>
-                        <div class="flex items-center gap-4">
-                            <a href="#contact-section" class="bg-white text-black font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-transform hover:scale-105 transform duration-300">Book My Free Strategy Session</a>
+                        <h1 id="hero-title" class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tighter mb-4">
+                            <span class="hero-title-word">Not</span>
+                            <span class="hero-title-word">sure</span>
+                            <span class="hero-title-word">if</span>
+                            <span class="hero-title-word">now</span>
+                            <span class="hero-title-word">is</span>
+                            <span class="hero-title-word">the</span>
+                            <span class="hero-title-word">right</span>
+                            <span class="hero-title-word">time</span>
+                            <span class="hero-title-word">to</span>
+                            <span class="hero-title-word">move?</span>
+                        </h1>
+                        <p id="hero-subtitle" class="max-w-xl text-lg md:text-xl text-gray-200 mb-8 opacity-0">My job is to help you spot the signals that matter and make your next move - the best move.</p>
+                        <div id="hero-cta" class="flex items-center gap-4 opacity-0">
+                            <a href="javascript:void(0)" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/roygogna/30min'});" class="bg-white text-black font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-transform hover:scale-105 transform duration-300">Book My Free Strategy Session</a>
                         </div>
                     </div>
                 </section>
@@ -339,14 +368,10 @@
                             <h3 class="text-3xl font-bold text-center">Clarity in Uncertain Times</h3>
                         </div>
                         <!-- Content Only on Hover (No Title) -->
-                        <div class="absolute inset-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-1">
-                            <div class="auto-scroll-content h-full pt-4">
+                        <div class="absolute inset-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-1">
+                            <div class="auto-scroll-content h-full">
                                 <p class="text-muted text-sm leading-relaxed">
-                                    When I first started, I believed real estate was just about selling homes. I thought my role was simple: open doors, write offers, close deals. But over time, as I worked with more people, I realized there was something much deeper going on. People weren't just looking for houses — they were looking for clarity. They wanted someone to help them make sense of the market, to cut through the noise, and to show them a clear way forward when everything felt uncertain.
-                                    <br><br>
-                                    The real value comes from understanding that behind every property search is a person seeking direction. When markets shift and headlines create confusion, what people really need is someone who can filter the noise and provide clear, actionable insights tailored to their unique situation.
-                                    <br><br>
-                                    This realization changed everything about how I approach real estate. Instead of focusing on transactions, I focus on transformation — helping people move from uncertainty to confidence, from confusion to clarity.
+                                    When I first started, I believed real estate was just about selling homes. I thought my role was simple: open doors, write offers, close deals. But over time, as I worked with more people, I realized there was something much deeper going on. People weren't just looking for houses — they were looking for clarity. They wanted someone to help them make sense of the market, to cut through the noise, and to show them a clear way forward when everything felt uncertain. The real value comes from understanding that behind every property search is a person seeking direction. When markets shift and headlines create confusion, what people really need is someone who can filter the noise and provide clear, actionable insights tailored to their unique situation. This realization changed everything about how I approach real estate. Instead of focusing on transactions, I focus on transformation — helping people move from uncertainty to confidence, from confusion to clarity.
                                 </p>
                             </div>
                         </div>
@@ -357,14 +382,10 @@
                             <h3 class="text-3xl font-bold text-center">Your Personal Blueprint</h3>
                         </div>
                         <!-- Content Only on Hover (No Title) -->
-                        <div class="absolute inset-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-2">
-                            <div class="auto-scroll-content h-full pt-4">
+                        <div class="absolute inset-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-2">
+                            <div class="auto-scroll-content h-full">
                                 <p class="text-muted text-sm leading-relaxed">
-                                    The truth hides in plain sight. As I gained more clients, I started to notice predictable patterns. People weren't making decisions because they were confident — they were making them out of fear. They were overwhelmed by the noise, convinced there was only one path or one "once-in-a-lifetime" opportunity, and paralyzed by the constant fear of missing out.
-                                    <br><br>
-                                    What they really wanted was someone who could slow the process down. Someone to listen to their goals, map out their moves, and lay out the best options — not the most — with a clear path forward. They wanted freedom of choice without the pressure.
-                                    <br><br>
-                                    This is where the blueprint approach makes all the difference. Instead of rushing to conclusions, we take time to understand your complete situation and create multiple scenarios that give you the power to choose your path with confidence. Every blueprint is unique because every client's situation is unique.
+                                    The truth hides in plain sight. As I gained more clients, I started to notice predictable patterns. People weren't making decisions because they were confident — they were making them out of fear. They were overwhelmed by the noise, convinced there was only one path or one "once-in-a-lifetime" opportunity, and paralyzed by the constant fear of missing out. What they really wanted was someone who could slow the process down. Someone to listen to their goals, map out their moves, and lay out the best options — not the most — with a clear path forward. They wanted freedom of choice without the pressure. This is where the blueprint approach makes all the difference. Instead of rushing to conclusions, we take time to understand your complete situation and create multiple scenarios that give you the power to choose your path with confidence. Every blueprint is unique because every client's situation is unique.
                                 </p>
                             </div>
                         </div>
@@ -375,14 +396,10 @@
                             <h3 class="text-3xl font-bold text-center">No Pressure, Just Value</h3>
                         </div>
                         <!-- Content Only on Hover (No Title) -->
-                        <div class="absolute inset-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-3">
-                            <div class="auto-scroll-content h-full pt-4">
+                        <div class="absolute inset-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 overflow-hidden" id="card-3">
+                            <div class="auto-scroll-content h-full">
                                 <p class="text-muted text-sm leading-relaxed">
-                                    That's when it clicked. My role wasn't simply about selling properties — it was about building foundations for people's lives. I realized that every conversation, every plan, every choice was a brick being laid. And when those bricks were solid, clients found themselves holding the keys to something greater: clarity, confidence, and freedom.
-                                    <br><br>
-                                    That's what Bricks & Keys is all about. The bricks are the foundation we build together. The keys are the success you unlock when you have the clarity to move with confidence.
-                                    <br><br>
-                                    This philosophy transforms the entire experience from a high-pressure sales situation into a collaborative journey where you're equipped with knowledge and options, empowering you to make decisions that align with your goals and timeline. No rush, no pressure, just genuine value.
+                                    That's when it clicked. My role wasn't simply about selling properties — it was about building foundations for people's lives. I realized that every conversation, every plan, every choice was a brick being laid. And when those bricks were solid, clients found themselves holding the keys to something greater: clarity, confidence, and freedom. That's what Bricks & Keys is all about. The bricks are the foundation we build together. The keys are the success you unlock when you have the clarity to move with confidence. This philosophy transforms the entire experience from a high-pressure sales situation into a collaborative journey where you're equipped with knowledge and options, empowering you to make decisions that align with your goals and timeline. No rush, no pressure, just genuine value.
                                 </p>
                             </div>
                         </div>
@@ -411,7 +428,7 @@
                             <span class="cta-word inline-block">move?</span>
                         </h2>
                         <p class="text-xl text-muted mb-8 max-w-2xl mx-auto cta-subtitle">Book your free strategy session and discover the exact steps to take in this market.</p>
-                        <a href="#contact-section" class="cta-button bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 inline-flex items-center gap-3 group pulse-on-load">
+                        <a href="javascript:void(0)" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/roygogna/30min'});" class="cta-button bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 inline-flex items-center gap-3 group pulse-on-load">
                             <span class="button-text">Book My Free Strategy Session</span>
                             <span class="arrow-circle bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -432,120 +449,149 @@
 
                 <!-- About Section - Combined from about.html -->
                 <section id="about-section" class="py-16">
-                    <!-- Main Content Cards - Our Values and Mission -->
-                    <div class="space-y-8 mb-16">
-                        <!-- Our Values Card -->
-                        <div class="group bg-card rounded-2xl border border-custom anim-on-scroll-y hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all duration-500 relative overflow-hidden">
-                            <!-- Capsule Header -->
-                            <div class="bg-white/10 rounded-full px-8 py-4 mx-8 mt-8 mb-4 text-center cursor-pointer transition-all duration-300 group-hover:bg-white/20">
-                                <h2 class="text-2xl md:text-3xl font-bold">Our Values</h2>
-                            </div>
-                            
-                            <!-- Hidden Content - Reveals on Hover -->
-                            <div class="px-8 pb-8 max-h-0 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">
-                                <p class="text-lg text-muted mb-4">This business is flooded with fear and noise. Everyone has an agenda — My agenda is simple: help you move smarter. At Bricks & Keys, these values shape every conversation, every strategy, every move we make.</p>
-                                <p class="text-lg text-muted font-medium">This isn't corporate fluff. This is the Bricks & Keys code. This is how I work. This is how you win.</p>
-                            </div>
-                            
-                            <!-- Animated background elements -->
-                            <div class="absolute top-4 right-4 w-16 h-16 bg-white/5 rounded-full animate-pulse"></div>
-                            <div class="absolute bottom-4 left-4 w-12 h-12 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                    <!-- We Are Section -->
+                    <div class="mb-16">
+                        <!-- Main Heading -->
+                        <div class="mb-12">
+                            <h2 class="text-6xl md:text-7xl font-black text-white tracking-tight">We Are</h2>
                         </div>
                         
-                        <!-- Our Mission Card -->
-                        <div class="group bg-card rounded-2xl border border-custom anim-on-scroll-y hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all duration-500 relative overflow-hidden" style="--delay: 0.2s;">
-                            <!-- Capsule Header -->
-                            <div class="bg-white/10 rounded-full px-8 py-4 mx-8 mt-8 mb-4 text-center cursor-pointer transition-all duration-300 group-hover:bg-white/20">
-                                <h3 class="text-2xl md:text-3xl font-bold">Our Mission</h3>
+                        <!-- Service Cards - Extended Black Pills -->
+                        <div class="space-y-6">
+                            <!-- Card 1: Market Clarity -->
+                            <div class="group bg-black rounded-3xl px-8 py-8 transition-all duration-500 cursor-pointer border border-white/20 hover:border-white/40 anim-on-scroll-y shadow-[0_0_25px_rgba(255,255,255,0.08)] hover:shadow-[0_0_35px_rgba(255,255,255,0.15)]">
+                                <div class="flex items-start justify-between mb-6">
+                                    <span class="text-white text-2xl md:text-3xl font-bold">Market Clarity</span>
+                                    <div class="w-8 h-8 text-white flex-shrink-0 ml-4">
+                                        <!-- Chat bubble icon -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Hidden Content - Reveals on Hover -->
+                                <div class="text-gray-300 text-lg leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">
+                                    <p>When I first started, I believed real estate was just about selling homes. I thought my role was simple: open doors, write offers, close deals. But over time, as I worked with more people, I realized there was something much deeper going on. People weren't just looking for houses — they were looking for clarity. They wanted someone to help them make sense of the market, to cut through the noise, and to show them a clear way forward when everything felt uncertain.</p>
+                                </div>
                             </div>
-                            
-                            <!-- Hidden Content - Reveals on Hover -->
-                            <div class="px-8 pb-8 max-h-0 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">
-                                <p class="text-lg text-muted mb-4">At Bricks & Keys, our mission is simple: to bring clarity where there's confusion, choice where there's fear, and direction where there's hesitation. Too many buyers and sellers feel like they're guessing, reacting to hype, or being pushed into one path.</p>
-                                <p class="text-lg text-muted mb-4">In our session, we slow things down. We strip away the noise and map out real scenarios — usually two or three distinct plays — so you can see the game from every angle. And from there, we help you spot the sweet spot: that intersection of timing, price, and value that aligns with your goals.</p>
-                                <p class="text-lg text-muted">This isn't about overwhelming you with endless options or boxing you into one choice. It's about giving you the confidence that every move you make is grounded, strategic, and truly yours.</p>
+
+                            <!-- Card 2: Predictable Patterns -->
+                            <div class="group bg-black rounded-3xl px-8 py-8 transition-all duration-500 cursor-pointer border border-white/20 hover:border-white/40 anim-on-scroll-y shadow-[0_0_25px_rgba(255,255,255,0.08)] hover:shadow-[0_0_35px_rgba(255,255,255,0.15)]" style="--delay: 0.1s;">
+                                <div class="flex items-start justify-between mb-6">
+                                    <span class="text-white text-2xl md:text-3xl font-bold">Predictable Patterns</span>
+                                    <div class="w-8 h-8 text-white flex-shrink-0 ml-4">
+                                        <!-- Shopping cart icon -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="21" r="1"/>
+                                            <circle cx="20" cy="21" r="1"/>
+                                            <path d="m1 1 4 4 7 12 7-7"/>
+                                            <path d="M5.5 5.5h15l-1 6h-13"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Hidden Content - Reveals on Hover -->
+                                <div class="text-gray-300 text-lg leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">
+                                    <div class="space-y-4">
+                                        <p>The truth hides in plain sight. As I gained more clients, I started to notice predictable patterns. People weren't making decisions because they were confident — they were making them out of fear. They were overwhelmed by the noise, convinced there was only one path or one "once-in-a-lifetime" opportunity, and paralyzed by the constant fear of missing out.</p>
+                                        <p>What they really wanted was someone who could slow the process down. Someone to listen to their goals, map out their moves, and lay out the best options — not the most — with a clear path forward. They wanted freedom of choice without the pressure.</p>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <!-- Animated background elements -->
-                            <div class="absolute top-4 left-4 w-20 h-20 bg-white/5 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
-                            <div class="absolute bottom-4 right-4 w-14 h-14 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
+
+                            <!-- Card 3: Your Bricks & Keys -->
+                            <div class="group bg-black rounded-3xl px-8 py-8 transition-all duration-500 cursor-pointer border border-white/20 hover:border-white/40 anim-on-scroll-y shadow-[0_0_25px_rgba(255,255,255,0.08)] hover:shadow-[0_0_35px_rgba(255,255,255,0.15)]" style="--delay: 0.2s;">
+                                <div class="flex items-start justify-between mb-6">
+                                    <span class="text-white text-2xl md:text-3xl font-bold">Your Bricks & Keys</span>
+                                    <div class="w-8 h-8 text-white flex-shrink-0 ml-4">
+                                        <!-- Handshake icon -->
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m11 17 2 2a1 1 0 1 0 3-3l-2.5-2.5a1 1 0 0 0-1.4 0l-.1.1a1 1 0 0 1-1.4 0 1 1 0 0 1 0-1.4l.1-.1a1 1 0 0 0 0-1.4L9 8.5a1 1 0 0 0-1.4 0l-.1.1a1 1 0 0 1-1.4 0 1 1 0 0 1 0-1.4L7.5 6a1 1 0 0 1 1.4 0l2.5 2.5"/>
+                                            <path d="m8 13 2.5 2.5a1 1 0 1 1-3 3l-2.5-2.5a1 1 0 0 1 0-1.4l.1-.1a1 1 0 0 0 0-1.4 1 1 0 0 0-1.4 0l-.1.1a1 1 0 0 1-1.4 0 1 1 0 0 1 0-1.4l.1-.1a1 1 0 0 1 1.4 0"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Hidden Content - Reveals on Hover -->
+                                <div class="text-gray-300 text-lg leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">
+                                    <p>That's when it clicked. My role wasn't simply about selling properties — it was about building foundations for people's lives. I realized that every conversation, every plan, every choice was a brick being laid. And when those bricks were solid, clients found themselves holding the keys to something greater: clarity, confidence, and freedom. That's what Bricks & Keys is all about. The bricks are the foundation we build together. The keys are the success you unlock when you have the clarity to move with confidence.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Principle Cards Section -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
                         <!-- Card 1: Just Because You Can -->
-                        <div class="principle-card bg-card rounded-2xl border border-custom anim-on-scroll-y p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-2 relative overflow-hidden">
-                            <h4 class="text-lg md:text-xl font-bold mb-4 text-white">Just Because You Can Doesn't Mean You Should</h4>
-                            <p class="text-muted">Every move has consequences. Strategy is knowing when to act — and when to wait.</p>
+                        <div class="principle-card bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 p-8 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:shadow-[0_0_35px_rgba(255,255,255,0.12)] hover:-translate-y-3 relative overflow-hidden">
+                            <h4 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-tight leading-tight">Just Because You Can Doesn't Mean You Should</h4>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">Every move has consequences. Strategy is knowing when to act — and when to wait.</p>
                             
                             <!-- Background decoration -->
-                            <div class="absolute top-3 right-3 w-8 h-8 bg-white/5 rounded-full animate-pulse"></div>
+                            <div class="absolute top-4 right-4 w-10 h-10 bg-white/5 rounded-full animate-pulse"></div>
                         </div>
 
                         <!-- Card 2: Don't Follow the Crowd -->
-                        <div class="principle-card bg-card rounded-2xl border border-custom anim-on-scroll-y p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-2 relative overflow-hidden" style="--delay: 0.1s;">
-                            <h4 class="text-lg md:text-xl font-bold mb-4 text-white">Don't Follow the Crowd</h4>
-                            <p class="text-muted">The market loves a bandwagon. But how do you know the crowd is headed where you want to go? I'll show you your own lane.</p>
+                        <div class="principle-card bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 p-8 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:shadow-[0_0_35px_rgba(255,255,255,0.12)] hover:-translate-y-3 relative overflow-hidden" style="--delay: 0.1s;">
+                            <h4 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-tight leading-tight">Don't Follow the Crowd</h4>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">The market loves a bandwagon. But how do you know the crowd is headed where you want to go? I'll show you your own lane.</p>
                             
                             <!-- Background decoration -->
-                            <div class="absolute bottom-3 left-3 w-10 h-10 bg-white/5 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                            <div class="absolute bottom-4 left-4 w-12 h-12 bg-white/5 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
                         </div>
 
                         <!-- Card 3: There's Always a Sweet Spot -->
-                        <div class="principle-card bg-card rounded-2xl border border-custom anim-on-scroll-y p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-2 relative overflow-hidden" style="--delay: 0.2s;">
-                            <h4 class="text-lg md:text-xl font-bold mb-4 text-white">There's Always a Sweet Spot</h4>
-                            <p class="text-muted">Timing. Pricing. Positioning. It's there if you know how to look. That's where clarity lives.</p>
+                        <div class="principle-card bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 p-8 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:shadow-[0_0_35px_rgba(255,255,255,0.12)] hover:-translate-y-3 relative overflow-hidden" style="--delay: 0.2s;">
+                            <h4 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-tight leading-tight">There's Always a Sweet Spot</h4>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">Timing. Pricing. Positioning. It's there if you know how to look. That's where clarity lives.</p>
                             
                             <!-- Background decoration -->
-                            <div class="absolute top-3 left-3 w-6 h-6 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                            <div class="absolute top-4 left-4 w-8 h-8 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
                         </div>
 
                         <!-- Card 4: Price vs. Value -->
-                        <div class="principle-card bg-card rounded-2xl border border-custom anim-on-scroll-y p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-2 relative overflow-hidden" style="--delay: 0.3s;">
-                            <h4 class="text-lg md:text-xl font-bold mb-4 text-white">Price vs. Value</h4>
-                            <p class="text-muted">Anyone can chase numbers. I'll help you see what's really worth it — because value always outlasts hype.</p>
+                        <div class="principle-card bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 p-8 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:shadow-[0_0_35px_rgba(255,255,255,0.12)] hover:-translate-y-3 relative overflow-hidden" style="--delay: 0.3s;">
+                            <h4 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-tight leading-tight">Price vs. Value</h4>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">Anyone can chase numbers. I'll help you see what's really worth it — because value always outlasts hype.</p>
                             
                             <!-- Background decoration -->
-                            <div class="absolute bottom-3 right-3 w-12 h-12 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
+                            <div class="absolute bottom-4 right-4 w-14 h-14 bg-white/5 rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
                         </div>
 
                         <!-- Card 5: Signals Over Noise -->
-                        <div class="principle-card bg-card rounded-2xl border border-custom anim-on-scroll-y p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-2 relative overflow-hidden md:col-span-2 lg:col-span-1" style="--delay: 0.4s;">
-                            <h4 class="text-lg md:text-xl font-bold mb-4 text-white">Signals Over Noise</h4>
-                            <p class="text-muted">The noise is loud. Headlines, opinions, hype. The signals are quiet. But they're the only thing that truly moves markets.</p>
+                        <div class="principle-card bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 p-8 transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:shadow-[0_0_35px_rgba(255,255,255,0.12)] hover:-translate-y-3 relative overflow-hidden md:col-span-2 lg:col-span-1" style="--delay: 0.4s;">
+                            <h4 class="text-2xl md:text-3xl font-black mb-6 text-white tracking-tight leading-tight">Signals Over Noise</h4>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">The noise is loud. Headlines, opinions, hype. The signals are quiet. But they're the only thing that truly moves markets.</p>
                             
                             <!-- Background decoration -->
-                            <div class="absolute top-3 right-3 w-14 h-14 bg-white/5 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+                            <div class="absolute top-4 right-4 w-16 h-16 bg-white/5 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
                         </div>
                     </div>
 
                     <!-- Stats Section -->
-                    <div class="py-16 bg-card rounded-2xl border border-custom my-16 anim-on-scroll-y hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all duration-300">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-8">
+                    <div class="py-20 bg-black/40 backdrop-blur-sm rounded-3xl border border-white/10 my-16 anim-on-scroll-y shadow-[0_0_60px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(255,255,255,0.3)] transition-all duration-500">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center px-12">
                             <div class="anim-on-scroll-y" style="--delay: 0s;">
-                                <div class="text-4xl font-bold text-white mb-2">
+                                <div class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                                     <span id="count-reviews" class="counter" data-target="40">0</span>+
                                 </div>
-                                <p class="text-muted">Google Reviews</p>
+                                <p class="text-gray-300 text-base font-medium tracking-wide">Google Reviews</p>
                             </div>
                             <div class="anim-on-scroll-y" style="--delay: 0.1s;">
-                                <div class="text-4xl font-bold text-white mb-2">
+                                <div class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                                     Top <span id="count-region" class="counter" data-target="1" data-start="100">100</span>%
                                 </div>
-                                <p class="text-muted">In the Region</p>
+                                <p class="text-gray-300 text-base font-medium tracking-wide">In the Region</p>
                             </div>
                             <div class="anim-on-scroll-y" style="--delay: 0.2s;">
-                                <div class="text-4xl font-bold text-white mb-2">
+                                <div class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                                     <span id="count-award" class="counter-text">Award</span>
                                 </div>
-                                <p class="text-muted">Winning Service</p>
+                                <p class="text-gray-300 text-base font-medium tracking-wide">Winning Service</p>
                             </div>
                             <div class="anim-on-scroll-y" style="--delay: 0.3s;">
-                                <div class="text-4xl font-bold text-white mb-2">
+                                <div class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
                                     <span id="count-clients" class="counter" data-target="100">0</span>+
                                 </div>
-                                <p class="text-muted">Happy Clients</p>
+                                <p class="text-gray-300 text-base font-medium tracking-wide">Happy Clients</p>
                             </div>
                         </div>
                     </div>
@@ -635,7 +681,7 @@
                                         <label class="block text-sm font-medium mb-2">Tell us more about your goals</label>
                                         <textarea rows="4" class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-white/20" placeholder="Share any specific goals, concerns, or questions you have..."></textarea>
                                     </div>
-                                    <button type="submit" class="w-full bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-200 transition-colors">
+                                    <button type="button" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/roygogna/30min'});" class="w-full bg-white text-black font-semibold px-6 py-4 rounded-lg hover:bg-gray-200 transition-colors">
                                         Book My Free Strategy Session
                                     </button>
                                 </form>
@@ -653,6 +699,7 @@
                                         <div>
                                             <p class="font-semibold">Email</p>
                                             <p class="text-muted">info@bricksandkeys.com</p>
+                                            <p class="text-muted">Roygogna@gmail.com</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-4">
@@ -663,7 +710,7 @@
                                         </div>
                                         <div>
                                             <p class="font-semibold">Phone</p>
-                                            <p class="text-muted">(519) 555-0123</p>
+                                            <p class="text-muted">+1 (416) 312-0622</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-4">
@@ -732,25 +779,7 @@
         // GSAP Initialization
         gsap.registerPlugin(ScrollTrigger);
 
-        // Theme Toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        const lightIcon = document.getElementById('theme-icon-light');
-        const darkIcon = document.getElementById('theme-icon-dark');
-
-        themeToggle.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                lightIcon.classList.add('hidden');
-                darkIcon.classList.remove('hidden');
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                lightIcon.classList.remove('hidden');
-                darkIcon.classList.add('hidden');
-            }
-        });
+    // Theme Toggle removed
 
         // Animate body on load
         gsap.to('body', { opacity: 1, duration: 0.5 });
@@ -779,20 +808,33 @@
         
         homeImageDivs.forEach((img, i) => {
             const nextIndex = (i + 1) % homeImageDivs.length;
+            
+            // Start showing current image
             homesTl.to(img, { 
                 opacity: 1, 
-                duration: 0.5,
+                duration: 0.8,
                 ease: "power2.inOut"
-            }, i * 4)
+            }, i * 3)
+            // Keep it visible for 2 seconds
+            .to(img, { 
+                opacity: 1, 
+                duration: 2,
+                ease: "none"
+            })
+            // Fade out while next image fades in (overlap for seamless transition)
             .to(img, { 
                 opacity: 0, 
-                duration: 0.5,
+                duration: 0.8,
                 ease: "power2.inOut"
-            }, (i * 4) + 3.5);
+            }, (i * 3) + 2.2);
         });
-        
-        // Ensure the first image starts visible again after the cycle
-        homesTl.set(homeImageDivs[0], { opacity: 1 });
+
+        // Ensure seamless loop by setting up the first image to fade in at the end
+        homesTl.to(homeImageDivs[0], { 
+            opacity: 1, 
+            duration: 0.8,
+            ease: "power2.inOut"
+        }, homeImageDivs.length * 3);
 
         // Stats Auto-Scroll Animation
         const statsContainer = document.getElementById('stats-container');
@@ -957,13 +999,29 @@
         const carouselContainer = document.getElementById('testimonial-carousel');
         testimonials.forEach(t => {
             carouselContainer.innerHTML += `
-                <div class="bg-card p-8 rounded-2xl border border-custom min-w-[400px] flex-shrink-0">
-                    <p class="text-muted mb-6 min-h-[7rem]">"${t.text}"</p>
+                <div class="bg-card p-6 rounded-2xl border border-custom min-w-[280px] flex-shrink-0">
+                    <p class="text-muted mb-4 min-h-[5rem] text-base leading-relaxed">"${t.text}"</p>
                     <div class="flex items-center">
-                        <img class="w-12 h-12 rounded-full mr-4" src="${t.img}" alt="${t.name}">
+                        <img class="w-10 h-10 rounded-full mr-3" src="${t.img}" alt="${t.name}">
                         <div>
-                            <p class="font-bold">${t.name}</p>
-                            <div class="flex text-yellow-400">★★★★★</div>
+                            <p class="font-bold text-base">${t.name}</p>
+                            <div class="flex text-yellow-400 text-base">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Duplicate testimonials for seamless loop
+        testimonials.forEach(t => {
+            carouselContainer.innerHTML += `
+                <div class="bg-card p-6 rounded-2xl border border-custom min-w-[280px] flex-shrink-0">
+                    <p class="text-muted mb-4 min-h-[5rem] text-base leading-relaxed">"${t.text}"</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="${t.img}" alt="${t.name}">
+                        <div>
+                            <p class="font-bold text-base">${t.name}</p>
+                            <div class="flex text-yellow-400 text-base">★★★★★</div>
                         </div>
                     </div>
                 </div>
@@ -975,7 +1033,7 @@
 
         const carouselAnim = gsap.to(carouselContainer, {
             x: -totalWidth,
-            duration: 25,
+            duration: 40,
             ease: "none",
             repeat: -1,
             modifiers: {
@@ -1095,6 +1153,126 @@
                 }
             });
         });
+
+        // Hero Title Animation - Words appearing one by one
+        const heroWords = gsap.utils.toArray('.hero-title-word');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        const heroCta = document.getElementById('hero-cta');
+
+        // Create a timeline for the hero section
+        const heroTl = gsap.timeline({ delay: 0.5 });
+
+        // Animate each word with a stagger effect
+        heroTl.to(heroWords, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+            stagger: {
+                amount: 1.2, // Total time to stagger all words
+                from: "start"
+            }
+        })
+        // Then animate the subtitle
+        .to(heroSubtitle, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.3") // Start slightly before the last word finishes
+        // Finally animate the CTA button
+        .to(heroCta, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)"
+        }, "-=0.4"); // Start slightly before subtitle finishes
+
+        // Add a subtle glow effect to words on hover
+        heroWords.forEach(word => {
+            word.addEventListener('mouseenter', () => {
+                gsap.to(word, {
+                    textShadow: "0 0 20px rgba(255,255,255,0.5)",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            word.addEventListener('mouseleave', () => {
+                gsap.to(word, {
+                    textShadow: "0 0 0px rgba(255,255,255,0)",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Auto-scrolling functionality for strategy session cards
+        const autoScrollCards = document.querySelectorAll('.auto-scroll-content');
+        
+        autoScrollCards.forEach((card, index) => {
+            const cardParent = card.closest('.group');
+            let scrollAnimation;
+            
+            const startAutoScroll = () => {
+                const scrollHeight = card.scrollHeight;
+                const clientHeight = card.clientHeight;
+                const maxScroll = scrollHeight - clientHeight;
+                
+                if (maxScroll > 0) {
+                    scrollAnimation = gsap.to(card, {
+                        scrollTop: maxScroll,
+                        duration: 10, // Same duration for all cards
+                        ease: "none",
+                        repeat: -1,
+                        yoyo: true,
+                        repeatDelay: 1
+                    });
+                }
+            };
+            
+            const stopAutoScroll = () => {
+                if (scrollAnimation) {
+                    scrollAnimation.kill();
+                    gsap.to(card, {
+                        scrollTop: 0,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                }
+            };
+            
+            // Start auto-scroll on hover
+            cardParent.addEventListener('mouseenter', () => {
+                setTimeout(startAutoScroll, 500); // Delay to let hover animation complete
+            });
+            
+            // Stop auto-scroll on mouse leave
+            cardParent.addEventListener('mouseleave', stopAutoScroll);
+            
+            // Pause scrolling on card hover (for reading)
+            card.addEventListener('mouseenter', () => {
+                if (scrollAnimation) scrollAnimation.pause();
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (scrollAnimation) scrollAnimation.resume();
+            });
+        });
     </script>
+
+    <!-- Calendly badge widget begin -->
+    <script type="text/javascript">
+        window.onload = function() {
+            Calendly.initBadgeWidget({
+                url: 'https://calendly.com/roygogna/30min',
+                text: 'Schedule time with me',
+                color: '#ffffff',
+                textColor: '#000000',
+                branding: false
+            });
+        }
+    </script>
+    <!-- Calendly badge widget end -->
 </body>
 </html>
